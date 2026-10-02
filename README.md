@@ -97,6 +97,12 @@ JWT_SECRET="a-long-random-secret" docker compose up -d --build
 
 The container stores the SQLite database in `./data` and landing images in `./public/main-images`, so both survive rebuilds.
 
+On startup the container runs `prisma db push`. This creates the tables on a fresh database and does nothing when the schema is already up to date. A fresh database has no admin user, so create one by seeding it from your machine:
+
+```bash
+DATABASE_URL="file:./data/prod.db" npm run seed
+```
+
 ## Environment variables
 
 | Variable | Description | Example |
@@ -140,7 +146,6 @@ See [`PROJECT_INFO.md`](PROJECT_INFO.md) for more detail on the routes, schema, 
 
 ## Roadmap
 - [ ] Send email notifications through a real provider (`src/lib/email.ts` is currently a console stub)
-- [ ] Add Prisma migrations for production deploys
 
 ## Author
 
